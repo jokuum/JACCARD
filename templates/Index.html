@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscador Jaccard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Buscador por Similitud (Jaccard)</h1>
+        <p class="subtitulo">{{ total_documentos }} documentos indexados</p>
+
+        <form action="/" method="get" class="form-busqueda">
+            <input
+                type="text"
+                name="q"
+                value="{{ consulta }}"
+                placeholder="Escribe tu busqueda..."
+                autofocus
+            >
+            <button type="submit">Buscar</button>
+        </form>
+
+        {% if consulta %}
+            <p class="info-resultados">
+                {{ resultados|length }} resultado(s) para "<strong>{{ consulta }}</strong>"
+            </p>
+
+            {% if resultados %}
+                <ul class="resultados">
+                    {% for r in resultados %}
+                    <li class="resultado">
+                        <div class="resultado-header">
+                            <span class="resultado-nombre">{{ r.nombre }}</span>
+                            <span class="resultado-score">{{ r.score }}% similitud</span>
+                        </div>
+                        <p class="resultado-texto">{{ r.texto }}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="sin-resultados">No se encontraron documentos relacionados.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
